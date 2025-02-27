@@ -58,6 +58,7 @@ type InstallForm struct {
 	RequireSignInView              bool
 	DefaultKeepEmailPrivate        bool
 	DefaultAllowCreateOrganization bool
+	OrgNamePrefix                  string
 	DefaultEnableTimetracking      bool
 	EnableUpdateChecker            bool
 	NoReplyAddress                 string
