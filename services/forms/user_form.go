@@ -58,7 +58,7 @@ type InstallForm struct {
 	RequireSignInView              bool
 	DefaultKeepEmailPrivate        bool
 	DefaultAllowCreateOrganization bool
-	OrgNamePrefix                  string
+	OrgNamePrefix                  string //TODO: `binding:"OmitEmpty;MaxSize(16)"` if necessary
 	DefaultEnableTimetracking      bool
 	EnableUpdateChecker            bool
 	NoReplyAddress                 string
