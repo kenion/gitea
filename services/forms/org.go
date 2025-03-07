@@ -34,27 +34,9 @@ func (f *CreateOrgForm) Validate(req *http.Request, errs binding.Errors) binding
 	return middleware.Validate(errs, ctx.Data, f, ctx.Locale)
 }
 
-// AdminCreateOrgForm form for creating organization as an admin, without name prefix check
-type AdminCreateOrgForm struct {
-	OrgName                   string `binding:"Required;Username;MaxSize(40)" locale:"org.org_name_holder"`
-	Visibility                structs.VisibleType
-	RepoAdminChangeTeamAccess bool
-}
-
-// Validate validates the fields
-func (f *AdminCreateOrgForm) Validate(req *http.Request, errs binding.Errors) binding.Errors {
-	ctx := context.GetValidateContext(req)
-	isAdmin := context.GetWebContext(req).Doer.IsAdmin
-	if !isAdmin {
-		//TODO: RETURN ERROR
-		return errs
-	}
-	return middleware.Validate(errs, ctx.Data, f, ctx.Locale)
-}
-
 // UpdateOrgSettingForm form for updating organization settings
 type UpdateOrgSettingForm struct {
-	Name                      string `binding:"Required;Username;MaxSize(40)" locale:"org.org_name_holder"`
+	Name                      string `binding:"Required;Username;MaxSize(40);OrgPrefix" locale:"org.org_name_holder"`
 	FullName                  string `binding:"MaxSize(100)"`
 	Email                     string `binding:"MaxSize(255)"`
 	Description               string `binding:"MaxSize(255)"`

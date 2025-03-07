@@ -74,6 +74,22 @@ func (err ErrUserNotAllowedCreateOrg) Unwrap() error {
 	return util.ErrPermissionDenied
 }
 
+// TODO: WHERE DO WE NEED TO THROW THIS?
+type ErrInvalidOrgPrefix struct{}
+
+func IsErrInvalidOrgPrefix(err error) bool {
+	_, ok := err.(ErrInvalidOrgPrefix)
+	return ok
+}
+
+func (err ErrInvalidOrgPrefix) Error() string {
+	return "Organization name prefix is missing or invalid"
+}
+
+func (err ErrInvalidOrgPrefix) Unwrap() error {
+	return util.ErrPermissionDenied
+}
+
 // Organization represents an organization
 type Organization user_model.User
 
@@ -290,6 +306,11 @@ func (org *Organization) UnitPermission(ctx context.Context, doer *user_model.Us
 func CreateOrganization(ctx context.Context, org *Organization, owner *user_model.User) (err error) {
 	if !owner.CanCreateOrganization() {
 		return ErrUserNotAllowedCreateOrg{}
+	}
+
+	if !strings.HasPrefix(org.Name, setting.Service.OrgNamePrefix) {
+		//TODO: IS IT POSSIBLE TO CHECK ADMIN STATUS HERE?
+		return ErrInvalidOrgPrefix{}
 	}
 
 	if err = user_model.IsUsableUsername(org.Name); err != nil {
