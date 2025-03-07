@@ -878,6 +878,7 @@ func registerRoutes(m *web.Router) {
 
 	m.Group("/org", func() {
 		m.Group("", func() {
+			//TODO: HOW TO GET CONTEXT HERE TO CHECK WHETHER DOER IS ADMIN?
 			m.Get("/create", org.Create)
 			m.Post("/create", web.Bind(forms.CreateOrgForm{}), org.CreatePost)
 		})

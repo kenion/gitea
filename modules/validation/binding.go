@@ -10,6 +10,7 @@ import (
 
 	"code.gitea.io/gitea/modules/auth"
 	"code.gitea.io/gitea/modules/git"
+	"code.gitea.io/gitea/modules/setting"
 	"code.gitea.io/gitea/modules/util"
 
 	"gitea.com/go-chi/binding"
@@ -27,6 +28,8 @@ const (
 	ErrUsername = "UsernameError"
 	// ErrInvalidGroupTeamMap is returned when a group team mapping is invalid
 	ErrInvalidGroupTeamMap = "InvalidGroupTeamMap"
+	// ErrInvalidOrgPrefix is returned when an organization prefix is missing or invalid
+	ErrInvalidOrgPrefix = "InvalidOrgPrefix"
 )
 
 // AddBindingRules adds additional binding rules
@@ -40,6 +43,7 @@ func AddBindingRules() {
 	addGlobOrRegexPatternRule()
 	addUsernamePatternRule()
 	addValidGroupTeamMapRule()
+	addOrgPrefixRule()
 }
 
 func addGitRefNameBindingRule() {
@@ -209,6 +213,22 @@ func addValidGroupTeamMapRule() {
 				return false, errs
 			}
 
+			return true, errs
+		},
+	})
+}
+
+func addOrgPrefixRule() {
+	binding.AddRule(&binding.Rule{
+		IsMatch: func(rule string) bool {
+			return rule == "OrgPrefix"
+		},
+		IsValid: func(errs binding.Errors, name string, val any) (bool, binding.Errors) {
+			str := fmt.Sprintf("%v", val)
+			if len(setting.Service.OrgNamePrefix) > 0 && !strings.HasPrefix(str, setting.Service.OrgNamePrefix) {
+				errs.Add([]string{name}, ErrInvalidOrgPrefix, "organization name prefix is missing or invalid")
+				return false, errs
+			}
 			return true, errs
 		},
 	})
