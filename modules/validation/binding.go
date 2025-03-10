@@ -225,6 +225,7 @@ func addOrgPrefixRule() {
 		},
 		IsValid: func(errs binding.Errors, name string, val any) (bool, binding.Errors) {
 			str := fmt.Sprintf("%v", val)
+			//TODO: Is it possible to check user admin status in the following if statement?
 			if len(setting.Service.OrgNamePrefix) > 0 && !strings.HasPrefix(str, setting.Service.OrgNamePrefix) {
 				errs.Add([]string{name}, ErrInvalidOrgPrefix, "organization name prefix is missing or invalid")
 				return false, errs

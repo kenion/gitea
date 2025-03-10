@@ -23,7 +23,8 @@ import (
 
 // CreateOrgForm form for creating organization
 type CreateOrgForm struct {
-	OrgName                   string `binding:"Required;Username;MaxSize(40);OrgPrefix" locale:"org.org_name_holder"`
+	//TODO: Add OrgPrefix binding to OrgName parameter?
+	OrgName                   string `binding:"Required;Username;MaxSize(40)" locale:"org.org_name_holder"`
 	Visibility                structs.VisibleType
 	RepoAdminChangeTeamAccess bool
 }
@@ -36,7 +37,8 @@ func (f *CreateOrgForm) Validate(req *http.Request, errs binding.Errors) binding
 
 // UpdateOrgSettingForm form for updating organization settings
 type UpdateOrgSettingForm struct {
-	Name                      string `binding:"Required;Username;MaxSize(40);OrgPrefix" locale:"org.org_name_holder"`
+	//TODO: Add OrgPrefix binding to OrgName parameter?
+	Name                      string `binding:"Required;Username;MaxSize(40)" locale:"org.org_name_holder"`
 	FullName                  string `binding:"MaxSize(100)"`
 	Email                     string `binding:"MaxSize(255)"`
 	Description               string `binding:"MaxSize(255)"`

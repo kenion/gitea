@@ -74,7 +74,6 @@ func (err ErrUserNotAllowedCreateOrg) Unwrap() error {
 	return util.ErrPermissionDenied
 }
 
-// TODO: WHERE DO WE NEED TO THROW THIS?
 type ErrInvalidOrgPrefix struct{}
 
 func IsErrInvalidOrgPrefix(err error) bool {
