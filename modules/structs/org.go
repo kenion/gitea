@@ -31,7 +31,7 @@ type OrganizationPermissions struct {
 // CreateOrgOption options for creating an organization
 type CreateOrgOption struct {
 	// required: true
-	UserName    string `json:"username" binding:"Required;Username;MaxSize(40)"`
+	UserName    string `json:"username" binding:"Required;Username;MaxSize(40)"` // TODO: add OrgPrefix? Create separate struct for admin?
 	FullName    string `json:"full_name" binding:"MaxSize(100)"`
 	Email       string `json:"email" binding:"MaxSize(255)"`
 	Description string `json:"description" binding:"MaxSize(255)"`

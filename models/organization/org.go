@@ -308,8 +308,7 @@ func CreateOrganization(ctx context.Context, org *Organization, owner *user_mode
 		return ErrUserNotAllowedCreateOrg{}
 	}
 
-	if !strings.HasPrefix(org.Name, setting.Service.OrgNamePrefix) {
-		//TODO: IS IT POSSIBLE TO CHECK ADMIN STATUS HERE?
+	if !strings.HasPrefix(org.Name, setting.Service.OrgNamePrefix) && !owner.IsAdmin {
 		return ErrInvalidOrgPrefix{}
 	}
 

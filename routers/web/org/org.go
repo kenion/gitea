@@ -70,9 +70,7 @@ func CreatePost(ctx *context.Context) {
 		case organization.IsErrUserNotAllowedCreateOrg(err):
 			ctx.RenderWithErr(ctx.Tr("org.form.create_org_not_allowed"), tplCreateOrg, &form)
 		case organization.IsErrInvalidOrgPrefix(err):
-			if !ctx.Doer.IsAdmin {
-				ctx.RenderWithErr(ctx.Tr("org.form.invalid_org_prefix"), tplCreateOrg, &form)
-			}
+			ctx.RenderWithErr(ctx.Tr("org.form.invalid_org_prefix"), tplCreateOrg, &form)
 		default:
 			ctx.ServerError("CreateOrganization", err)
 		}
